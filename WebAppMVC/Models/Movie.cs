@@ -16,6 +16,8 @@ namespace WebAppMVC.Models
         [Display(Name = "Name")]
         public string name { get; set; }
 
+        //apply custom validation to this attribute
+        [NumberInStockValidation]
         [Display(Name = "Amount in stock")]
         public int noInStock { get; set; }
 
@@ -30,5 +32,9 @@ namespace WebAppMVC.Models
 
         [Display(Name = "Genre")]
         public int genreId { get; set; }
+
+
+        public static readonly int MinimumAmount=0;
+        public static readonly int MaximumAmount=20;
     }
 }

@@ -45,8 +45,10 @@ namespace WebAppMVC.Controllers
             return View("MovieForm", viewMod);
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Save(Movie movie)
         {
+            //check if validation failed, reload the form
             if(!ModelState.IsValid)
             {
                 var viewMod = new MovieFormViewModel
@@ -56,14 +58,16 @@ namespace WebAppMVC.Controllers
                 };
                 return View("MovieForm", viewMod);
             }
+            //if id == 0 which is the default if the object doesn't exists in the DB, insert it into DB
             if (movie.id == 0)
             {
                 movie.dateAdded = DateTime.Now;
                 _context.Movies.Add(movie);
             }
+            //else update the existing record using the id
             else
             {
-                var MovieInDB = _context.Movies.ToList().Single(x => x.id == movie.id);
+                var MovieInDB = GetSingleMovie(movie.id);
                 MovieInDB.name = movie.name;
                 MovieInDB.releaseDate = movie.releaseDate;
                 MovieInDB.dateAdded = movie.dateAdded;
@@ -74,7 +78,6 @@ namespace WebAppMVC.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index", "Movies");
         }
-        // GET: Movies
         public ActionResult Index()
         {
             return View(GetMovies());
