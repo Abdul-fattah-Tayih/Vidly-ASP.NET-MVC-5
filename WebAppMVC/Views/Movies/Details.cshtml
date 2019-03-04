@@ -1,0 +1,24 @@
+﻿@model WebAppMVC.Models.Movie
+@{
+    ViewBag.Title = "SingleMovie";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.name</h2>
+<h4>Details</h4>
+<ul>
+        <li>
+            <b>Genre: </b> @Model.genre.name
+        </li>
+        <li>
+            <b>Release Date: </b> @Model.releaseDate.Date
+        </li>
+        <li>
+            <b>Date Added: </b> @Model.dateAdded.Date
+        </li>
+        <li>
+            <b>Amount in stock: </b> @Model.noInStock
+        </li>
+</ul>
+
+
